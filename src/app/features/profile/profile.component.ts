@@ -18,7 +18,7 @@ import { User, Project } from '../../core/models/user.model';
           </div>
           <div class="profile-title">
             <h1 class="profile-name">{{ user.displayName }}</h1>
-            <div class="profile-username">@{{ user.username }}</div>
+            <div class="profile-username">{{ user.username }}</div>
             <p class="profile-bio">{{ user.bio }}</p>
           </div>
           <div class="profile-actions">

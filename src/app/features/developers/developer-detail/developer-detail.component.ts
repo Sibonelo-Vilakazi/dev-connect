@@ -8,99 +8,115 @@ import { User } from '../../../core/models/user.model';
   selector: 'app-developer-detail',
   standalone: true,
   imports: [CommonModule, RouterLink],
-  template: `
-    <div class="container profile-container" *ngIf="developer; else loading">
-      <div class="profile-header">
-        <div class="profile-cover"></div>
-        <div class="profile-info">
-          <div class="profile-avatar">
-            <img [src]="developer.photoURL || 'assets/default-avatar.png'" alt="Profile" class="avatar-img">
-          </div>
-          <div class="profile-title">
-            <h1 class="profile-name">{{ developer.displayName }}</h1>
-            <div class="profile-username">@{{ developer.username }}</div>
-            <p class="profile-bio">{{ developer.bio }}</p>
-          </div>
-          <div class="profile-actions">
-            <button class="btn btn-primary">Connect</button>
-            <button class="btn btn-outline">Share Profile</button>
+  template: `<div class="container profile-container" *ngIf="developer; else loading">
+  <div class="profile-header">
+    <div class="profile-cover"></div>
+    <div class="profile-info">
+      <div class="profile-avatar">
+        <img [src]="developer.photoURL || 'assets/default-avatar.png'" alt="Profile" class="avatar-img">
+      </div>
+      <div class="profile-title">
+        <h1 class="profile-name">{{ developer.displayName }}</h1>
+        <div class="profile-username">{{ developer.username }}</div>
+        <p class="profile-bio">{{ developer.bio }}</p>
+      </div>
+      <div class="profile-actions">
+        <button class="btn btn-primary">Connect</button>
+        <button class="btn btn-outline">Share Profile</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="profile-content">
+    <div class="profile-sidebar">
+      <div class="sidebar-section" *ngIf="developer && (developer.certifications ?? []).length > 0">
+        <h2 class="sidebar-title">Certifications</h2>
+        <div class="certifications-list">
+          <div class="certification-item" *ngFor="let cert of developer.certifications">
+            <div class="certification-badge">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                   viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="7"></circle>
+                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+              </svg>
+            </div>
+            <div class="certification-name">{{ cert }}</div>
           </div>
         </div>
       </div>
-      
-      <div class="profile-content">
-        <div class="profile-sidebar">
-          <div class="sidebar-section" *ngIf="developer.certifications && developer.certifications.length > 0">
-            <h2 class="sidebar-title">Certifications</h2>
-            <div class="certifications-list">
-              <div class="certification-item" *ngFor="let cert of developer.certifications">
-                <div class="certification-badge">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
-                </div>
-                <div class="certification-name">{{ cert }}</div>
-              </div>
-            </div>
+
+      <div class="sidebar-section">
+        <h2 class="sidebar-title">Stats</h2>
+        <div class="stats-list">
+          <div class="stat-item">
+            <div class="stat-value">{{ developer.projects?.length || 0 }}</div>
+            <div class="stat-label">Projects</div>
           </div>
-          
-          <div class="sidebar-section">
-            <h2 class="sidebar-title">Stats</h2>
-            <div class="stats-list">
-              <div class="stat-item">
-                <div class="stat-value">{{ developer.projects?.length || 0 }}</div>
-                <div class="stat-label">Projects</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-value">0</div>
-                <div class="stat-label">Connections</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-value">0</div>
-                <div class="stat-label">Profile Views</div>
-              </div>
-            </div>
+          <div class="stat-item">
+            <div class="stat-value">0</div>
+            <div class="stat-label">Connections</div>
           </div>
-        </div>
-        
-        <div class="profile-main">
-          <div class="projects-section">
-            <div class="section-header">
-              <h2 class="section-title">Projects</h2>
-            </div>
-            
-            <div class="projects-grid" *ngIf="developer.projects && developer.projects.length > 0">
-              <div class="project-card" *ngFor="let project of developer.projects">
-                <div class="project-header">
-                  <h3 class="project-title">{{ project.title }}</h3>
-                  <a [href]="project.link" target="_blank" class="project-link" *ngIf="project.link">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                  </a>
-                </div>
-                <p class="project-description">{{ project.description }}</p>
-                <div class="project-technologies" *ngIf="project.technologies && project.technologies.length > 0">
-                  <span class="technology-tag" *ngFor="let tech of project.technologies">{{ tech }}</span>
-                </div>
-              </div>
-            </div>
-            
-            <div class="empty-projects" *ngIf="!developer.projects || developer.projects.length === 0">
-              <div class="empty-message">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                <h3>No projects yet</h3>
-                <p>This developer hasn't added any projects yet.</p>
-              </div>
-            </div>
+          <div class="stat-item">
+            <div class="stat-value">0</div>
+            <div class="stat-label">Profile Views</div>
           </div>
         </div>
       </div>
     </div>
-    
-    <ng-template #loading>
-      <div class="loading-container">
-        <div class="loading-spinner"></div>
-        <p>Loading profile...</p>
+
+    <div class="profile-main">
+      <div class="projects-section">
+        <div class="section-header">
+          <h2 class="section-title">Projects</h2>
+        </div>
+
+        <div class="projects-grid" *ngIf="(developer.projects ?? []).length > 0">
+          <div class="project-card" *ngFor="let project of developer.projects">
+            <div class="project-header">
+              <h3 class="project-title">{{ project.title }}</h3>
+              <a *ngIf="project.link" [href]="project.link" target="_blank" class="project-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+              </a>
+            </div>
+            <p class="project-description">{{ project.description }}</p>
+            <div class="project-technologies" *ngIf="(project.technologies ?? []).length > 0">
+              <span class="technology-tag" *ngFor="let tech of project.technologies">{{ tech }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="empty-projects" *ngIf="!developer.projects || developer.projects.length === 0">
+          <div class="empty-message">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48"
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <h3>No projects yet</h3>
+            <p>This developer hasn't added any projects yet.</p>
+          </div>
+        </div>
       </div>
-    </ng-template>
-  `,
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Loading profile...</p>
+  </div>
+</ng-template>
+`,
   styles: [`
     .profile-container {
       padding-top: var(--space-6);

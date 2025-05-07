@@ -34,7 +34,7 @@ import { User } from '../../core/models/user.model';
             <img [src]="developer.photoURL" alt="{{ developer.displayName }}" class="developer-avatar">
             <div class="developer-info">
               <h2 class="developer-name">{{ developer.displayName }}</h2>
-              <span class="developer-username">@{{ developer.username }}</span>
+              <span class="developer-username">{{ developer.username }}</span>
             </div>
           </div>
           
