@@ -14,7 +14,7 @@
               "extractLicenses": false,
               "namedChunks": true,
               "optimization": false,
-              "sourceMap": false
+              "sourceMap": true
             },
             "production": {
               "aot": true,
