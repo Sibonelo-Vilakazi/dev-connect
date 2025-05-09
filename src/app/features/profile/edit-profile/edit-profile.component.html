@@ -28,7 +28,7 @@
             
             <div class="form-group">
               <label for="username" class="form-label">Username</label>
-              <input type="text" id="username" formControlName="username" class="form-control" placeholder="johndoe">
+              <input type="text" readonly id="username" formControlName="username" class="form-control" placeholder="johndoe">
               <div *ngIf="profileForm.get('username')?.touched && profileForm.get('username')?.invalid" class="error-message">
                 Username is required
               </div>

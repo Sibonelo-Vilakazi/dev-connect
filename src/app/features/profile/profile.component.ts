@@ -15,7 +15,7 @@ import { Helpers } from '../../shared/utils/utils';
 })
 export class ProfileComponent implements OnInit {
   user: User | null = null;
-  
+  isLoading: boolean = false;
   constructor(private authService: AuthService, private userServcie: UserService,
     public helper: Helpers
   ) {}
