@@ -186,9 +186,8 @@ export class EditProfileComponent implements OnInit {
     if(this.user?.id){
       this.userService.getUserById(this.user?.id ?? '').subscribe({
         next: (res) => {
-          console.log(res);
           this.user = Object.assign({...this.user}, {...res});
-          console.log(this.user);
+
           this.profileForm = this.fb.group({
             displayName: [this.user?.displayName || '', Validators.required],
             username: [this.user?.username || '', Validators.required],

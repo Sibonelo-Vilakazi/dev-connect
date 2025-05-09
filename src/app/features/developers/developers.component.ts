@@ -177,7 +177,6 @@ export class DevelopersComponent implements OnInit {
   
   async ngOnInit() {
     const users = await this.userService.getUsers();
-      console.log('users: ', users);
       this.developers = users;
       this.filteredDevelopers = [...users];
    

@@ -108,17 +108,7 @@ export class UserService {
 
   // Update user details
   updateUser(userId: string, userData: Partial<User>): Observable<User> {
-    // const index = this.mockUsers.findIndex(u => u.id === userId);
-    
-    // if (index !== -1) {
-    //   this.mockUsers[index] = { ...this.mockUsers[index], ...userData };
-      
-    //   // In a real app, update user in database and then return the updated user
-    //   return of(this.mockUsers[index]);
-    // }
-    
-    // User not found, return null wrapped in an observable
-    console.log('User Data: ', {userData, userId})
+   
     const userRef = doc(this.firestore, `users/${userId}`);
     setDoc(userRef, userData as User, {merge: true});
     return of(userData as User);
