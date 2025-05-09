@@ -41,14 +41,13 @@ export class LoginComponent {
     }
     
     // In a real app, we would authenticate with email/password here
-    // For this demo, just redirect to hardcoded user
+    // For this dev-connect, just redirect to hardcoded user
     this.signInWithGoogle();
   }
   
   signInWithGoogle(): void {
     this.authService.signInWithGoogle().subscribe({
       next: (user) => {
-        
         if (this.redirectTo) {
           this.router.navigateByUrl(this.redirectTo);
         } else {

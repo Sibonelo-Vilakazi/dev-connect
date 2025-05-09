@@ -28,18 +28,22 @@ export const firebaseConfig = {
 })
 export class FirebaseService {
   private app = initializeApp(firebaseConfig);
-  private auth = getAuth(this.app);
+  auth = getAuth(this.app);
   private analytics = getAnalytics(this.app);
-  private currentUserSubject = new BehaviorSubject<User | null>(null);
-  
+  currentUserSubject = new BehaviorSubject<User | null>(null);
+  authReadyResolver!: () => void;
+  authReady = new Promise<void>((resolve) => this.authReadyResolver = resolve);
+
   constructor() {
     onAuthStateChanged(this.auth, (firebaseUser) => {
+      // const authService = inject(AuthService)
       if (firebaseUser) {
         const user: User = this.mapFirebaseUserToUser(firebaseUser);
         this.currentUserSubject.next(user);
       } else {
         this.currentUserSubject.next(null);
       }
+      this.authReadyResolver()
     });
   }
 
@@ -65,7 +69,7 @@ export class FirebaseService {
     this.currentUserSubject.next(null);
   }
   
-  private mapFirebaseUserToUser(firebaseUser: FirebaseUser): User {
+   mapFirebaseUserToUser(firebaseUser: FirebaseUser): User {
     return {
       id: firebaseUser.uid,
       email: firebaseUser.email || '',

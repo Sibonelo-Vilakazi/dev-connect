@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscriber } from 'rxjs';
 import { User } from '../models/user.model';
 
 import { Router } from '@angular/router';
@@ -13,19 +13,23 @@ export class AuthService {
   public currentUser$ = this.firebaseService.getCurrentUser();
   userService: UserService = inject(UserService);
   USER = 'USER';
+   authReadyResolver!: () => void;
+
   constructor(
     private firebaseService: FirebaseService,
     private router: Router
   ) {}
-  
+
+  authReady = new Promise<void>((resolve) => this.authReadyResolver = resolve);
+
   signInWithGoogle(): Observable<User> {
     return new Observable((subscriber) => {
       this.firebaseService.signInWithGoogle()
         .then((user: User) => {
           
-          this.completeUser(user);
-          subscriber.next(user);
-          subscriber.complete();
+          this.completeUser(user, subscriber);
+          
+          
         })
         .catch((error) => {
           subscriber.error(error);
@@ -44,24 +48,31 @@ export class AuthService {
   }
   
   isAuthenticated(): boolean {
-    let isAuth = false;
+    let isAuth = true;
+    
     this.currentUser$.subscribe(user => {
       isAuth = !!user;
     });
+
+   
     return isAuth;
   }
 
 
-  completeUser(user: User){
+  completeUser(user: User, subscriber: any){
     this.userService.getUserById(user.id).subscribe({
       next: (res) =>{
        
-        if(!res == undefined){
+        if(res !== undefined){
           
           this.setUserFromDatabase(res);
+          subscriber.next(res);
+          subscriber.complete();
         } else {
           this.userService.createUser(user).then((res) =>{
               this.setUserFromDatabase(user);
+              subscriber.next(user);
+              subscriber.complete();
             }
           );
         }

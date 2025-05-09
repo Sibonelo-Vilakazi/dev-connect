@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { AuthService } from './core/services/auth.service';
+import {  onAuthStateChanged } from 'firebase/auth';
+import { FirebaseService } from './core/services/firebase.service';
+import { User } from './core/models/user.model';
 
 @Component({
   selector: 'app-root',
@@ -38,7 +41,9 @@ import { AuthService } from './core/services/auth.service';
   `]
 })
 export class AppComponent {
-  constructor() {
+  
+  constructor(private firebaseService: FirebaseService) {
     // Initialize authentication state
+    
   }
 }

@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class UserService {
-  // Mock user data for demonstration
+  // Mock user data for dev-connectnstration
   private mockUsers: User[] = [
     {
       id: '123456',

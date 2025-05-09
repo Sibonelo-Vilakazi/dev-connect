@@ -49,7 +49,7 @@ export class RegisterComponent {
     }
     
     // In a real app, we would register with email/password here
-    // For this demo, just use Google sign-in
+    // For this dev-connect, just use Google sign-in
     this.signInWithGoogle();
   }
   

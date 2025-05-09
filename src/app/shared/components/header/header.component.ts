@@ -361,5 +361,6 @@ export class HeaderComponent {
     this.authService.signOut();
     this.userMenuOpen = false;
     this.mobileMenuOpen = false;
+    localStorage.clear();
   }
 }
