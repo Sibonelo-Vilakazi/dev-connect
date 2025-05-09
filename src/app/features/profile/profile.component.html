@@ -1,0 +1,91 @@
+
+<div class="container profile-container" *ngIf="user">
+    <div class="profile-header">
+      <div class="profile-cover"></div>
+      <div class="profile-info">
+        <div class="profile-avatar">
+          <img [src]="user.photoURL || 'assets/default-avatar.png'" alt="Profile" class="avatar-img">
+        </div>
+        <div class="profile-title">
+          <h1 class="profile-name">{{ user.displayName }}</h1>
+          <div class="profile-username">{{ user.username }}</div>
+          <p class="profile-bio">{{ user.bio }}</p>
+        </div>
+        <div class="profile-actions">
+          <a routerLink="/edit-profile" class="btn btn-outline">Edit Profile</a>
+          <button (click)="helper.handleShareProfile(user.username)" class="btn btn-primary">Share Profile</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="profile-content">
+      <div class="profile-sidebar">
+        <div class="sidebar-section">
+          <h2 class="sidebar-title">Certifications</h2>
+          <div class="certifications-list">
+            <div class="certification-item" *ngFor="let cert of user.certifications">
+              <div class="certification-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+              </div>
+              <div class="certification-name">{{ cert }}</div>
+            </div>
+            <a routerLink="/edit-profile" class="add-certification" *ngIf="!user.certifications || user.certifications.length === 0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+              Add certifications
+            </a>
+          </div>
+        </div>
+        
+        <div class="sidebar-section">
+          <h2 class="sidebar-title">Stats</h2>
+          <div class="stats-list">
+            <div class="stat-item">
+              <div class="stat-value">{{ user.projects?.length || 0 }}</div>
+              <div class="stat-label">Projects</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">0</div>
+              <div class="stat-label">Connections</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">0</div>
+              <div class="stat-label">Profile Views</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="profile-main">
+        <div class="projects-section">
+          <div class="section-header">
+            <h2 class="section-title">Projects</h2>
+            <a routerLink="/edit-profile" class="btn btn-outline">Add Project</a>
+          </div>
+          
+          <div class="projects-grid" *ngIf="user.projects && user.projects.length > 0">
+            <div class="project-card" *ngFor="let project of user.projects">
+              <div class="project-header">
+                <h3 class="project-title">{{ project.title }}</h3>
+                <a [href]="project.link" target="_blank" class="project-link" *ngIf="project.link">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                </a>
+              </div>
+              <p class="project-description">{{ project.description }}</p>
+              <div class="project-technologies" *ngIf="project.technologies && project.technologies.length > 0">
+                <span class="technology-tag" *ngFor="let tech of project.technologies">{{ tech }}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="empty-projects" *ngIf="!user.projects || user.projects.length === 0">
+            <div class="empty-message">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <h3>Add your first project</h3>
+              <p>Showcase your work to other developers</p>
+              <a routerLink="/edit-profile" class="btn btn-primary">Add Project</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

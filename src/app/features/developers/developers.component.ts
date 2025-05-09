@@ -9,56 +9,7 @@ import { User } from '../../core/models/user.model';
   selector: 'app-developers',
   standalone: true,
   imports: [CommonModule, RouterLink, ReactiveFormsModule],
-  template: `
-    <div class="container developers-container">
-      <div class="developers-header">
-        <h1 class="page-title">Discover Developers</h1>
-        <p class="page-subtitle">Connect with talented developers from around the world</p>
-      </div>
-      
-      <div class="search-bar">
-        <div class="search-input-container">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          <input 
-            type="text" 
-            class="search-input" 
-            placeholder="Search by name or skills..." 
-            [formControl]="searchControl"
-          >
-        </div>
-      </div>
-      
-      <div class="developers-grid">
-        <div class="developer-card" *ngFor="let developer of filteredDevelopers">
-          <div class="developer-card-header">
-            <img [src]="developer.photoURL" alt="{{ developer.displayName }}" class="developer-avatar">
-            <div class="developer-info">
-              <h2 class="developer-name">{{ developer.displayName }}</h2>
-              <span class="developer-username">{{ developer.username }}</span>
-            </div>
-          </div>
-          
-          <p class="developer-bio">{{ developer.bio }}</p>
-          
-          <div class="developer-certifications" *ngIf="developer.certifications && developer.certifications.length > 0">
-            <h3 class="certifications-title">Certifications</h3>
-            <div class="certifications-list">
-              <span class="certification-tag" *ngFor="let cert of developer.certifications">{{ cert }}</span>
-            </div>
-          </div>
-          
-          <div class="project-count">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-            <span>{{ developer.projects?.length || 0 }} Projects</span>
-          </div>
-          
-          <div class="developer-card-footer">
-            <a [routerLink]="['/developer', developer.username]" class="btn btn-primary btn-block">View Profile</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  `,
+  templateUrl: `./developers.component.html`,
   styles: [`
     .developers-container {
       padding-top: var(--space-6);
@@ -224,11 +175,12 @@ export class DevelopersComponent implements OnInit {
   
   constructor(private userService: UserService) {}
   
-  ngOnInit(): void {
-    this.userService.getUsers().subscribe(users => {
+  async ngOnInit() {
+    const users = await this.userService.getUsers();
+      console.log('users: ', users);
       this.developers = users;
       this.filteredDevelopers = [...users];
-    });
+   
     
     this.searchControl.valueChanges.subscribe(value => {
       this.filterDevelopers(value || '');
