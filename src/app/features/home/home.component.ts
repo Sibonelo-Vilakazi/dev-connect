@@ -57,6 +57,21 @@ import { AuthService } from '../../core/services/auth.service';
           </div>
         </div>
       </section>
+
+          <!-- Donation Section -->
+          <section class="donation-section">
+        <div class="container">
+          <div class="donation-content">
+            <h2 class="donation-title">Support DevConnect</h2>
+            <p class="donation-description">Help us keep DevConnect free and accessible to developers worldwide. Your support makes a difference!</p>
+            <div class="donation-buttons">
+             
+              <a href="https://www.buymeacoffee.com/sibonelosvr" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+            </div>
+          </div>
+        </div>
+      </section>
+  
       
       <!-- Call to Action Section -->
       <section class="cta-section">
@@ -220,6 +235,48 @@ import { AuthService } from '../../core/services/auth.service';
     .cta-section .btn-outline:hover {
       background-color: rgba(255, 255, 255, 0.1);
     }
+
+    .donation-section {
+      padding: var(--space-8) 0;
+      background-color: var(--primary-50);
+    }
+
+    .donation-content {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .donation-title {
+      color: var(--primary-900);
+      font-size: 2rem;
+      margin-bottom: var(--space-3);
+    }
+
+    .donation-description {
+      color: var(--neutral-600);
+      margin-bottom: var(--space-5);
+    }
+
+    .donation-buttons {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-4);
+    }
+
+    .donation-btn {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-5);
+      font-size: 1rem;
+    }
+
+    .donation-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+  
   `]
 })
 export class HomeComponent {
