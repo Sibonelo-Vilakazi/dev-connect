@@ -42,7 +42,7 @@
         </div>
         
         <div class="developer-card-footer">
-          <a [routerLink]="['/developer', developer.username]" class="btn btn-primary btn-block">View Profile</a>
+          <a (click)="handleRouter('developer/'+ developer.username)" class="btn btn-primary btn-block">View Profile</a>
         </div>
       </div>
     </div>

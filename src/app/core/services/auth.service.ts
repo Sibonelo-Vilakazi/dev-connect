@@ -13,7 +13,7 @@ export class AuthService {
   public currentUser$ = this.firebaseService.getCurrentUser();
   userService: UserService = inject(UserService);
   USER = 'USER';
-   authReadyResolver!: () => void;
+  authReadyResolver!: () => void;
 
   constructor(
     private firebaseService: FirebaseService,

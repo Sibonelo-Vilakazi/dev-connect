@@ -8,7 +8,7 @@ import { Helpers } from '../../../shared/utils/utils';
 @Component({
   selector: 'app-developer-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: `./developer-detail.component.html`,
   styleUrls: [`./developer-detail.component.scss`]
 })

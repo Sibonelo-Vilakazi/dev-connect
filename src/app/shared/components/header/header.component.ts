@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { User } from '../../../core/models/user.model';
 
@@ -43,7 +43,7 @@ import { User } from '../../../core/models/user.model';
             <ng-container *ngIf="currentUser">
               <div class="user-menu" (click)="toggleUserMenu()" #userMenuTrigger>
                 <img [src]="currentUser.photoURL" alt="Profile" class="user-avatar" *ngIf="currentUser.photoURL">
-                <div class="user-name">{{ currentUser.displayName }}</div>
+                <div *ngIf="authService.getUserFromDatabase()s" class="user-name">{{ authService.getUserFromDatabase().displayName }}</div>
                 <div class="dropdown-icon">▼</div>
                 
                 <div class="user-dropdown" *ngIf="userMenuOpen">
@@ -340,15 +340,22 @@ import { User } from '../../../core/models/user.model';
 })
 export class HeaderComponent {
   currentUser: User | null = null;
+  user: User | null  = null;
   userMenuOpen = false;
   mobileMenuOpen = false;
   
-  constructor(private authService: AuthService) {
+  constructor(public authService: AuthService, private router: Router) {
+    this.user = authService.getUserFromDatabase();
+    
     this.authService.currentUser$.subscribe(user => {
-      this.currentUser = user;
+      this.currentUser = authService.getCurrentUser();
+      
+      
     });
   }
-  
+  handleOpenRoute(route: string) {
+    this.router.navigateByUrl(route)
+  }
   toggleUserMenu(): void {
     this.userMenuOpen = !this.userMenuOpen;
   }

@@ -8,7 +8,7 @@ import { UserService } from '../../../core/services/user.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, RouterLink, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: `./login.component.html`,
   styleUrls: [`./login.component.scss`]
 })

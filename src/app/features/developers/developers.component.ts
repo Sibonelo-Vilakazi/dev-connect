@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../../core/services/user.service';
 import { User } from '../../core/models/user.model';
@@ -8,7 +8,7 @@ import { User } from '../../core/models/user.model';
 @Component({
   selector: 'app-developers',
   standalone: true,
-  imports: [CommonModule, RouterLink, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: `./developers.component.html`,
   styles: [`
     .developers-container {
@@ -173,7 +173,7 @@ export class DevelopersComponent implements OnInit {
   filteredDevelopers: User[] = [];
   searchControl = new FormControl('');
   
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private router: Router) {}
   
   async ngOnInit() {
     const users = await this.userService.getUsers();
@@ -220,5 +220,12 @@ export class DevelopersComponent implements OnInit {
       
       return false;
     });
+  }
+
+
+  handleRouter(route: string){
+    //const router: Router = inject(Router);
+
+    this.router.navigateByUrl(route)
   }
 }

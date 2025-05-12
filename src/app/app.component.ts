@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
@@ -7,6 +7,9 @@ import { AuthService } from './core/services/auth.service';
 import {  onAuthStateChanged } from 'firebase/auth';
 import { FirebaseService } from './core/services/firebase.service';
 import { User } from './core/models/user.model';
+import { Analytics } from '@angular/fire/analytics';
+import { filter } from 'rxjs';
+import { logEvent } from 'firebase/analytics';
 
 @Component({
   selector: 'app-root',
@@ -42,8 +45,17 @@ import { User } from './core/models/user.model';
 })
 export class AppComponent {
   
-  constructor(private firebaseService: FirebaseService) {
+  constructor(private firebaseService: FirebaseService, 
+    private analytics: Analytics, private router: Router) {
     // Initialize authentication state
-    
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      logEvent(this.analytics, 'page_view', {
+        page_path: event.urlAfterRedirects
+      });
+    });
   }
+
+  
 }
