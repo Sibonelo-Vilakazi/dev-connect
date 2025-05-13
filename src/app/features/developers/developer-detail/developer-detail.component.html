@@ -11,9 +11,8 @@
           <p class="profile-bio">{{ developer.bio }}</p>
         </div>
         <div class="profile-actions">
-          @if (developer.id !== authService.getCurrentUser()?.id){
+          @if (developer.id !== authService.getCurrentUser()?.id && !developer.connections?.includes(authService.getCurrentUser()?.id ?? '')){
             <button  (click)="handleConnect()" class="btn btn-primary">Connect</button>
-
           }
           <button (click)="helper.handleShareProfile(developer.username)" class="btn btn-outline">Copy Profile</button>
         </div>

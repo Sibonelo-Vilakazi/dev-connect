@@ -21,13 +21,14 @@ export class ProfileComponent implements OnInit {
   ) {}
   
   ngOnInit(): void {
-    this.user = this.authService.getUserFromDatabase();
+    //this.user = this.authService.getUserFromDatabase();
 
     if (!this.user) {
       const currentUser = this.authService.getCurrentUser();
       this.userServcie.getUserById(currentUser?.id ?? '').subscribe({
         next: (res) => {
           this.authService.setUserFromDatabase(res);
+          this.user = res;
         }
       })
     }
