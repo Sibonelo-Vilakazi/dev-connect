@@ -68,7 +68,6 @@ export class DeveloperDetailComponent implements OnInit {
     if(visitorId){
     
       const hasViewed = (project.visitors ?? []).includes(visitorId);
-      console.log(hasViewed);
       if(!hasViewed && this.developer && this.developer.projects){
         if(!this.developer.projects[index].visitors || this.developer.projects[index].visitors === undefined){
           this.developer.projects[index].visitors = [visitorId];
@@ -80,7 +79,7 @@ export class DeveloperDetailComponent implements OnInit {
         this.userService.updateUser(this.developer.id, this.developer).subscribe({
           next: (updatedUser: any) => {
           // Update auth service with updated user
-          console.log('')
+          
           this.ngOnInit()
         }});
       }
