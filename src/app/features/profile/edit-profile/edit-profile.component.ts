@@ -281,7 +281,7 @@ export class EditProfileComponent implements OnInit {
     
     // Get form values
     const formValue = this.profileForm?.value as User;
-    console.log('profile: ', this.profileForm?.value)
+    
     // Update user object
     this.userService.updateUser(this.user.id, formValue).subscribe({
       next: (updatedUser: any) => {
@@ -290,6 +290,7 @@ export class EditProfileComponent implements OnInit {
         this.authService.setUserFromDatabase(updatedUser);
         // Navigate back to profile
         this.router.navigate(['/profile']);
+
       },
       error: (error) => {
         console.error('Error updating profile:', error);
