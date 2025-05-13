@@ -194,7 +194,9 @@ export class EditProfileComponent implements OnInit {
             bio: [this.user?.bio || ''],
             photoURL: [this.user?.photoURL || ''],
             certifications: this.fb.array([]),
-            projects: this.fb.array([])
+            projects: this.fb.array([]),
+            connections: this.fb.array(res.connections ?? []),
+            views: this.fb.array(res.views ?? [])
           });
           
           // Add existing certifications
@@ -278,8 +280,8 @@ export class EditProfileComponent implements OnInit {
     }
     
     // Get form values
-    const formValue = this.profileForm?.value;
-    
+    const formValue = this.profileForm?.value as User;
+    console.log('profile: ', this.profileForm?.value)
     // Update user object
     this.userService.updateUser(this.user.id, formValue).subscribe({
       next: (updatedUser: any) => {

@@ -36,18 +36,18 @@ export class ProfileComponent implements OnInit {
   
 
   async handleOpenLink(project: Project, index: number){
-    //window.open(project.link, '_blank');
-     const visitorId = await this.userServcie.getVisitorId();
+    window.open(project.link, '_blank');
+    //  const visitorId = await this.userServcie.getVisitorId();
 
-    if(visitorId){
-      // add visitor count
-      const hasViewed = !(project.visitors ?? []).includes(visitorId);
-      if(!hasViewed && this.user && this.user.projects){
-        this.user.projects[index].visitors?.push(visitorId);
-        console.log('user: ', this.user);
-      }
+    // if(visitorId){
+    //   // add visitor count
+    //   const hasViewed = !(project.visitors ?? []).includes(visitorId);
+    //   if(!hasViewed && this.user && this.user.projects){
+    //     this.user.projects[index].visitors?.push(visitorId);
+    //     console.log('user: ', this.user);
+    //   }
 
-      }
+    //   }
   }
   
 
