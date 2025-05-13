@@ -77,6 +77,8 @@ export class FirebaseService {
       photoURL: firebaseUser.photoURL || '',
       username: firebaseUser.email?.split('@')[0] || '',
       bio: '',
+      views: [],
+      connections: [],
       certifications: [],
       projects: []
     };

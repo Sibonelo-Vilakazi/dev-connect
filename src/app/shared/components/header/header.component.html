@@ -1,0 +1,82 @@
+<header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <a routerLink="/" class="logo-link">
+            <span class="logo-text">Dev<span class="logo-accent">Connect</span></span>
+          </a>
+        </div>
+        
+        <nav class="main-nav">
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item">
+              <a routerLink="/developers" routerLinkActive="active" class="nav-link">Developers</a>
+            </li>
+            <ng-container *ngIf="currentUser">
+              <li class="nav-item">
+                <a routerLink="/profile" routerLinkActive="active" class="nav-link">My Profile</a>
+              </li>
+            </ng-container>
+          </ul>
+        </nav>
+        
+        <div class="auth-actions">
+          <ng-container *ngIf="!currentUser">
+            <a routerLink="/login" class="btn btn-outline">Log in</a>
+            <a routerLink="/register" class="btn btn-primary">Sign up</a>
+          </ng-container>
+          
+          <ng-container *ngIf="currentUser">
+            <div class="user-menu" (click)="toggleUserMenu()" #userMenuTrigger>
+              <img [src]="currentUser.photoURL" alt="Profile" class="user-avatar" *ngIf="currentUser.photoURL">
+              <div *ngIf="authService.getUserFromDatabase()s" class="user-name">{{ authService.getUserFromDatabase().displayName }}</div>
+              <div class="dropdown-icon">▼</div>
+              
+              <div class="user-dropdown" *ngIf="userMenuOpen">
+                <a routerLink="/profile" class="dropdown-item">View Profile</a>
+                <a routerLink="/edit-profile" class="dropdown-item">Edit Profile</a>
+                <button class="dropdown-item" (click)="logout()">Logout</button>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+        
+        <button class="mobile-menu-toggle" (click)="toggleMobileMenu()">
+          <span class="mobile-menu-icon"></span>
+        </button>
+      </div>
+      
+      <div class="mobile-nav" [class.active]="mobileMenuOpen">
+        <ul class="mobile-nav-list">
+          <li class="mobile-nav-item">
+            <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="mobile-nav-link">Home</a>
+          </li>
+          <li class="mobile-nav-item">
+            <a routerLink="/developers" routerLinkActive="active" class="mobile-nav-link">Developers</a>
+          </li>
+          <ng-container *ngIf="currentUser">
+            <li class="mobile-nav-item">
+              <a routerLink="/profile" routerLinkActive="active" class="mobile-nav-link">My Profile</a>
+            </li>
+            <li class="mobile-nav-item">
+              <a routerLink="/edit-profile" routerLinkActive="active" class="mobile-nav-link">Edit Profile</a>
+            </li>
+            <li class="mobile-nav-item">
+              <button class="mobile-nav-link mobile-logout" (click)="logout()">Logout</button>
+            </li>
+          </ng-container>
+          <ng-container *ngIf="!currentUser">
+            <li class="mobile-nav-item">
+              <a routerLink="/login" routerLinkActive="active" class="mobile-nav-link">Log in</a>
+            </li>
+            <li class="mobile-nav-item">
+              <a routerLink="/register" routerLinkActive="active" class="mobile-nav-link">Sign up</a>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+    </div>
+  </header>

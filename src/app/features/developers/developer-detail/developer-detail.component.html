@@ -11,7 +11,10 @@
           <p class="profile-bio">{{ developer.bio }}</p>
         </div>
         <div class="profile-actions">
-          <button class="btn btn-primary">Connect</button>
+          @if (developer.id !== authService.getCurrentUser()?.id){
+            <button  (click)="handleConnect()" class="btn btn-primary">Connect</button>
+
+          }
           <button (click)="helper.handleShareProfile(developer.username)" class="btn btn-outline">Copy Profile</button>
         </div>
       </div>
@@ -44,11 +47,11 @@
               <div class="stat-label">Projects</div>
             </div>
             <div class="stat-item">
-              <div class="stat-value">0</div>
+              <div class="stat-value">{{developer.connections?.length ?? 0}}</div>
               <div class="stat-label">Connections</div>
             </div>
             <div class="stat-item">
-              <div class="stat-value">0</div>
+              <div class="stat-value">{{developer.views?.length ?? 0}}</div>
               <div class="stat-label">Profile Views</div>
             </div>
           </div>
@@ -62,10 +65,10 @@
           </div>
   
           <div class="projects-grid" *ngIf="(developer.projects ?? []).length > 0">
-            <div class="project-card" *ngFor="let project of developer.projects">
+            <div class="project-card" *ngFor="let project of developer.projects; let i = index">
               <div class="project-header">
                 <h3 class="project-title">{{ project.title }}</h3>
-                <a *ngIf="project.link" [href]="project.link" target="_blank" class="project-link">
+                <a *ngIf="project.link" (click)="handleOpenLink(project, i)" class="project-link">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

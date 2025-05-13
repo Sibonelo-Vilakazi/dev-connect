@@ -7,6 +7,8 @@ export interface User {
   certifications?: string[];
   username: string;
   projects?: Project[];
+  views?: string[]
+  connections?: string[]
 }
 
 export interface Project {
@@ -16,4 +18,5 @@ export interface Project {
   link?: string;
   imageUrl?: string;
   technologies?: string[];
+  visitors?: string[]
 }
