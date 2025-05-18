@@ -27,7 +27,7 @@ export class AuthService {
     return new Observable((subscriber) => {
       this.firebaseService.signInWithGoogle()
         .then((user: User) => {
-          
+        
           this.completeUser(user, subscriber);
           
           
@@ -67,6 +67,7 @@ export class AuthService {
         if(res !== undefined){
           
           this.setUserFromDatabase(res);
+        
           subscriber.next(res);
           subscriber.complete();
         } else {

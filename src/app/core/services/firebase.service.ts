@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { 
   getAuth, 
@@ -6,12 +6,14 @@ import {
   GoogleAuthProvider,
   signOut,
   onAuthStateChanged,
-  User as FirebaseUser
+  User as FirebaseUser,
+  getAdditionalUserInfo
 } from 'firebase/auth';
 import { getAnalytics } from 'firebase/analytics';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/user.model';
 import { doc, setDoc } from '@angular/fire/firestore';
+import { UserService } from './user.service';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyAn97r4fgtRGuXEAIZKRIDZBLbXh6m2ia4",
@@ -34,7 +36,7 @@ export class FirebaseService {
   authReadyResolver!: () => void;
   authReady = new Promise<void>((resolve) => this.authReadyResolver = resolve);
 
-  constructor() {
+  constructor(private userService: UserService) {
     onAuthStateChanged(this.auth, (firebaseUser) => {
       // const authService = inject(AuthService)
       if (firebaseUser) {
@@ -57,8 +59,31 @@ export class FirebaseService {
   async signInWithGoogle(): Promise<User> {
     const provider = new GoogleAuthProvider();
     const result = await signInWithPopup(this.auth, provider);
-
+    const additionaInfor = getAdditionalUserInfo(result);
     
+    if(additionaInfor?.isNewUser){
+      const user = result.user;
+      const userData: User = {
+        id: user.uid,
+        email: user.email ?? '',
+        displayName: user.displayName ?? '',
+        photoURL: user.photoURL ?? '',
+        bio: '',
+        certifications: [],
+        username: user.email?.split('@')[0] || user.uid,
+        projects: [],
+        views: [],
+        connections: [],
+      };
+      this.userService.updateUser(user.uid, userData).subscribe({
+        next:(res: User) => {
+          this.currentUserSubject.next(res);
+        },
+        error: (err) =>{
+          console.error(err)
+        }
+      });
+    }
     const user = this.mapFirebaseUserToUser(result.user);
     this.currentUserSubject.next(user);
     return user;
